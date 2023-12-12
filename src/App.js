@@ -7,8 +7,8 @@ const FolderSelector = () => {
   const handleFolderSelect = () => {
     fileInputRef.current.click();
   };
-
-  const handleSelectedFolder = (event) => {
+  //handleSelectedFolder : img filter기능
+  const handleSelectedFolder = (event) => { 
     const fileList = Array.from(event.target.files);
     const allowedExtensions = ["jpeg", "png", "jpg"];
   
