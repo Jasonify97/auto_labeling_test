@@ -1,51 +1,48 @@
-/* eslint-disable */
-import logo from './logo.svg';
-import './App.css';
-<<<<<<< HEAD
-import { Component } from 'react';
+import React, { useRef, useState } from 'react';
 
+const FolderSelector = () => {
+  const fileInputRef = useRef(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        Hello, React!!
-      </div>
-    );
-  }
-=======
-import React, { useState } from 'react'
-
-
-
-function App() {
-  const [isFolderOpen, setFolderOpen] = useState(false);
-
-  const toggleFolder = () => {
-    setFolderOpen(!isFolderOpen);
+  const handleFolderSelect = () => {
+    fileInputRef.current.click();
   };
 
+  const handleSelectedFolder = (event) => {
+    const fileList = Array.from(event.target.files);
+    setSelectedFiles(fileList.filter(file => file.type.startsWith('image/jpeg')));
+  };
 
   return (
-    <div className="App">
-      <div className='black-nav'>
-        <div>Auto Labeling</div>
-      </div>
-      <h3>Open Folder!</h3>
-      {/* 폴더 열기 버튼 */}
-      <button onClick={toggleFolder}>
-        {isFolderOpen ? '폴더 닫기' : '폴더 열기'}
-      </button>
+    <div>
+      <h2>Select a Folder</h2>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        directory=""
+        webkitdirectory=""
+        onChange={handleSelectedFolder}
+      />
+      <button onClick={handleFolderSelect}>Select Folder</button>
 
-      {/* 폴더 내용 */}
-      {isFolderOpen && (
+      {selectedFiles.length > 0 && (
         <div>
-          {/* 폴더 내용을 이곳에 추가하세요 */}
+          <h3>Images in the selected folder:</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {selectedFiles.map((file, index) => (
+              <img
+                key={index}
+                src={URL.createObjectURL(file)}
+                alt={file.name}
+                style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '5px' }}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>
   );
->>>>>>> origin/HEAD
-}
+};
 
-export default App;
+export default FolderSelector;
