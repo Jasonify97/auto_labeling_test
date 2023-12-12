@@ -10,7 +10,11 @@ const FolderSelector = () => {
 
   const handleSelectedFolder = (event) => {
     const fileList = Array.from(event.target.files);
-    setSelectedFiles(fileList.filter(file => file.type.startsWith('image/jpeg')));
+    const allowedExtensions = ["jpeg", "png", "jpg"];
+  
+    setSelectedFiles(fileList.filter(file => {
+      return allowedExtensions.some(ext => file.type.endsWith(ext));
+    }));
   };
 
   return (
