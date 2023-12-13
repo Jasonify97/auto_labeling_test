@@ -11,22 +11,35 @@ body {
 }
 .black-nav {
   background: black;
-  width: 100%;
+  width: calc(100%-20px);
   display: flex;
   color: white;
   padding-left: 20px;
-  padding-right: 20px;
   font-weight: 600;
   font-size: 20px;
 }
-.side_bar {
-  width: 7vw;
+.left_bar {
+  width: 5vw;
   height: 90vh;
-  margin: 10px;
+  padding: 10px;
+  border-right: 3px solid #bcbcbc;
 }
 .main {
-  width:92vw;
-  height: 90vh;
+  width:75vw;
+  /* height: 70vh; */
+}
+.image {
+
+  margin: 30px;
+
+}
+
+.right_bar {
+  width: 20vw;
+}
+
+.next_image {
+  margin-top: 30vh;
 }
 
 
