@@ -1,19 +1,46 @@
 .App {
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 body {
   font-family: 'nanumsquare';
 }
+.body {
+  display: flex;
+}
 .black-nav {
   background: black;
-  width: 100%;
+  width: calc(100%-20px);
   display: flex;
   color: white;
-  padding: 20px;
+  padding-left: 20px;
   font-weight: 600;
   font-size: 20px;
 }
+.left_bar {
+  width: 5vw;
+  height: 90vh;
+  padding: 10px;
+  border-right: 3px solid #bcbcbc;
+}
+.main {
+  width:75vw;
+  /* height: 70vh; */
+}
+.image {
 
+  margin: 30px;
+
+}
+
+.right_bar {
+  width: 20vw;
+}
+
+.next_image {
+  margin-top: 30vh;
+}
 
 
 .App-logo {
