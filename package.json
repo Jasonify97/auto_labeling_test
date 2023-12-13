@@ -6,6 +6,11 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.2",
+    "concurrently": "^8.2.2",
+    "express": "^4.18.2",
+    "mul": "^0.0.1-alpha.0",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -16,7 +21,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:server": "node server/server.js",
+    "dev": "concurrently \"npm start\" \"npm run start:server\"",
+    "prod": "npm run build && node server/server.js"
   },
   "eslintConfig": {
     "extends": [

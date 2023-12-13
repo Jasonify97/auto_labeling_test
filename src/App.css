@@ -24,6 +24,11 @@ body {
   padding: 10px;
   border-right: 3px solid #bcbcbc;
 }
+.btn {
+  margin: 10px;
+  margin-top: 60px;
+}
+
 .main {
   width:75vw;
   /* height: 70vh; */

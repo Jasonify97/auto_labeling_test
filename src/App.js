@@ -1,18 +1,21 @@
-// eslint-disable
+// eslint-disable-next-line
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
-import Replicate from "replicate";
+import axios from 'axios';
+// import Replicate from "replicate";
 
 const FolderSelector = () => {
   const fileInputRef = useRef(null);
+  const savePathInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleFolderSelect = () => {
     fileInputRef.current.click();
+    console.log('저장 파일 경로!:', fileInputRef);
   };
   //handleSelectedFolder : img filter기능
-  const handleSelectedFolder = (event) => {
+  const handleSelectedFolder = async (event) => {
     const fileList = Array.from(event.target.files);
     const allowedExtensions = ["jpeg", "png", "jpg"];
 
@@ -21,6 +24,27 @@ const FolderSelector = () => {
       .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
 
     setSelectedFiles(sortedFiles);
+
+    // 업로드 로직
+
+    if (sortedFiles.length > 0) {
+      const formData = new FormData();
+      formData.append('file', sortedFiles[0]);
+      try {
+        // 서버에 파일 업로드 요청
+        await axios.post('http://localhost:3001/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log('파일 업로드 성공!');
+      } catch (error) {
+        console.error('파일 업로드 실패:', error.message);
+      }
+    }
+
+
   };
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowRight') {
@@ -29,6 +53,20 @@ const FolderSelector = () => {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedFiles.length) % selectedFiles.length);
     }
   };
+
+  const handleSavePathSelect = () => {
+    savePathInputRef.current.click();
+  };
+
+  // 새로 추가된 부분: 파일 저장 경로가 변경될 때의 처리
+  const handleSavePathChange = (event) => {
+    // 여기에서 파일 저장 경로에 대한 처리를 수행하면 됩니다.
+    const savePath = event.target.value;
+    console.log('저장경로!!:', savePath);
+  };
+
+
+
   useEffect(() => {
     // Add event listener for the right arrow key
     window.addEventListener('keydown', handleKeyDown);
@@ -58,7 +96,14 @@ const FolderSelector = () => {
             webkitdirectory=""
             onChange={handleSelectedFolder}
           />
-          <button onClick={handleFolderSelect}>Select Folder</button>
+          <input
+            type="text"
+            ref={savePathInputRef}
+            style={{ display: 'none' }}
+            onChange={handleSavePathChange}
+          />
+          <button className='btn' onClick={handleFolderSelect}>Upload Folder</button>
+          <button className='btn' onClick={handleSavePathSelect}>Download Folder</button>
         </div>
 
         {/* main */}
