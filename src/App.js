@@ -14,6 +14,7 @@ const FolderSelector = () => {
     fileInputRef.current.click();
     console.log('저장 파일 경로!:', fileInputRef);
   };
+
   //handleSelectedFolder : img filter기능
   const handleSelectedFolder = async (event) => {
     const fileList = Array.from(event.target.files);
@@ -28,8 +29,14 @@ const FolderSelector = () => {
     // 업로드 로직
 
     if (sortedFiles.length > 0) {
+      console.log(sortedFiles)
       const formData = new FormData();
-      formData.append('file', sortedFiles[0]);
+
+    // 모든 파일을 formData에 추가
+    sortedFiles.forEach((file, index) => {
+      formData.append(`files`, file); // 필드 이름을 'files'로 변경
+    });
+
       try {
         // 서버에 파일 업로드 요청
         await axios.post('http://localhost:3001/upload', formData, {

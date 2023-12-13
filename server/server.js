@@ -17,10 +17,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // 업로드된 파일 처리
-app.post('/upload', upload.single('file'), (req, res) => {
-  const uploadedFile = req.file;
-  console.log('Uploaded File:', uploadedFile);
-  res.send('File uploaded successfully');
+app.post('/upload', upload.array('files'), (req, res) => {
+  const uploadedFiles = req.files;
+  console.log(req.body);
+  console.log(req.files);
+  res.send('Files uploaded successfully');
 });
 
 // 다운로드할 파일 제공
