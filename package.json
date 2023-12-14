@@ -22,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:server": "node server/server.js",
+    "start:server": "python ./server/server.py",
     "dev": "concurrently \"npm start\" \"npm run start:server\"",
     "prod": "npm run build && node server/server.js"
   },

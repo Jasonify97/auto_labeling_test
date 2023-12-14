@@ -19,8 +19,7 @@ const upload = multer({ storage: storage });
 // 업로드된 파일 처리
 app.post('/upload', upload.array('files'), (req, res) => {
   const uploadedFiles = req.files;
-  console.log(req.body);
-  console.log(req.files);
+  console.log(uploadedFiles)
   res.send('Files uploaded successfully');
 });
 

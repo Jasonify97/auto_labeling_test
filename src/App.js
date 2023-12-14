@@ -12,7 +12,6 @@ const FolderSelector = () => {
 
   const handleFolderSelect = () => {
     fileInputRef.current.click();
-    console.log('저장 파일 경로!:', fileInputRef);
   };
 
   //handleSelectedFolder : img filter기능
@@ -29,7 +28,6 @@ const FolderSelector = () => {
     // 업로드 로직
 
     if (sortedFiles.length > 0) {
-      console.log(sortedFiles)
       const formData = new FormData();
 
     // 모든 파일을 formData에 추가
@@ -39,15 +37,15 @@ const FolderSelector = () => {
 
       try {
         // 서버에 파일 업로드 요청
-        await axios.post('http://localhost:3001/upload', formData, {
+        await axios.post('http://localhost:5000/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
         console.log('파일 업로드 성공!');
       } catch (error) {
-        console.error('파일 업로드 실패:', error.message);
+        console.error('APP.js파일 업로드 실패:', error.message);
+
       }
     }
 
@@ -69,10 +67,7 @@ const FolderSelector = () => {
   const handleSavePathChange = (event) => {
     // 여기에서 파일 저장 경로에 대한 처리를 수행하면 됩니다.
     const savePath = event.target.value;
-    console.log('저장경로!!:', savePath);
   };
-
-
 
   useEffect(() => {
     // Add event listener for the right arrow key
@@ -111,6 +106,8 @@ const FolderSelector = () => {
           />
           <button className='btn' onClick={handleFolderSelect}>Upload Folder</button>
           <button className='btn' onClick={handleSavePathSelect}>Download Folder</button>
+          <button className='btn' onClick={handleSavePathSelect}>Next</button>
+          <button className='btn' onClick={handleSavePathSelect}>Previous</button>
         </div>
 
         {/* main */}
