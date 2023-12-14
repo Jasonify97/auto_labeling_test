@@ -2,14 +2,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
-// import Replicate from "replicate";
 
 const FolderSelector = () => {
   const fileInputRef = useRef(null);
   const savePathInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  
   const handleFolderSelect = () => {
     fileInputRef.current.click();
   };
@@ -28,27 +27,28 @@ const FolderSelector = () => {
     // 업로드 로직
 
     if (sortedFiles.length > 0) {
-      const formData = new FormData();
-
-    // 모든 파일을 formData에 추가
+      const formData = new FormData()
+    
     sortedFiles.forEach((file, index) => {
       formData.append(`files`, file); // 필드 이름을 'files'로 변경
     });
 
       try {
         // 서버에 파일 업로드 요청
-        await axios.post('http://localhost:5000/upload', formData, {
+        await axios.post('http://localhost:3002/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        });
+        });  
         console.log('파일 업로드 성공!');
       } catch (error) {
         console.error('APP.js파일 업로드 실패:', error.message);
-        setPythonResult(response.data.result);
       }
     }
   };
+
+
+
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowRight') {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedFiles.length);
