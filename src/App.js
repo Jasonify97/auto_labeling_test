@@ -45,11 +45,9 @@ const FolderSelector = () => {
         console.log('파일 업로드 성공!');
       } catch (error) {
         console.error('APP.js파일 업로드 실패:', error.message);
-
+        setPythonResult(response.data.result);
       }
     }
-
-
   };
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowRight') {
