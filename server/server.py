@@ -16,4 +16,5 @@ def upload_file():
     except Exception as e:
         return f'파일 업로드 중 오류 발생: {e}', 500
 
+# 파이썬 어렵다
 app.run(host='localhost', port=3001, debug=True)
