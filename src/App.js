@@ -47,8 +47,6 @@ const FolderSelector = () => {
     }
   };
 
-
-
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowRight') {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedFiles.length);
@@ -104,8 +102,8 @@ const FolderSelector = () => {
           />
           <button className='btn' onClick={handleFolderSelect}>Upload Folder</button>
           <button className='btn' onClick={handleSavePathSelect}>Download Folder</button>
-          <button className='btn' onClick={handleSavePathSelect}>Next</button>
-          <button className='btn' onClick={handleSavePathSelect}>Previous</button>
+          <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedFiles.length)}>Next</button>
+          <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedFiles.length) % selectedFiles.length)}>Previous</button>
         </div>
 
         {/* main */}
