@@ -8,6 +8,7 @@ const FolderSelector = () => {
   const savePathInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [pythonResult, setPythonResult] = useState({});
   
   const handleFolderSelect = () => {
     fileInputRef.current.click();
@@ -35,15 +36,30 @@ const FolderSelector = () => {
 
       try {
         // 서버에 파일 업로드 요청
-        await axios.post('http://localhost:3002/upload', formData, {
+        const request1 = await axios.post('http://localhost:3002/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        });  
+        });
+        const request2 = await axios.post('http://127.0.0.1:5000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        await Promise.all([request1, request2]);
         console.log('파일 업로드 성공!');
       } catch (error) {
         console.error('APP.js파일 업로드 실패:', error.message);
       }
+    }
+  };
+
+  const executePythonScript = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/run-script');
+      setPythonResult(response.data);
+    } catch (error) {
+      console.error('Error executing PYthon xcript:', error);
     }
   };
 
@@ -101,6 +117,9 @@ const FolderSelector = () => {
             onChange={handleSavePathChange}
           />
           <button className='btn' onClick={handleFolderSelect}>Upload Folder</button>
+          <div>
+            <button onClick={executePythonScript}>Run Python Script</button>
+          </div>
           <button className='btn' onClick={handleSavePathSelect}>Download Folder</button>
           <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedFiles.length)}>Next</button>
           <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedFiles.length) % selectedFiles.length)}>Previous</button>
