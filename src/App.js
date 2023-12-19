@@ -5,11 +5,12 @@ import axios from 'axios';
 
 const FolderSelector = () => {
   const fileInputRef = useRef(null);
-  const savePathInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploadFiles, uploadedFiles] = useState([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [pythonResult, setPythonResult] = useState({});
-  
+
   const handleFolderSelect = () => {
     fileInputRef.current.click();
   };
@@ -29,7 +30,7 @@ const FolderSelector = () => {
 
     if (sortedFiles.length > 0) {
       const formData = new FormData()
-    
+
     sortedFiles.forEach((file, index) => {
       formData.append(`files`, file); // 필드 이름을 'files'로 변경
     });
@@ -70,16 +71,10 @@ const FolderSelector = () => {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedFiles.length) % selectedFiles.length);
     }
   };
+  const imagesContext = require.context('/server/output/', false);
 
-  const handleSavePathSelect = () => {
-    savePathInputRef.current.click();
-  };
-
-  // 새로 추가된 부분: 파일 저장 경로가 변경될 때의 처리
-  const handleSavePathChange = (event) => {
-    // 여기에서 파일 저장 경로에 대한 처리를 수행하면 됩니다.
-    const savePath = event.target.value;
-  };
+  // 이미지 파일명 추출 및 매핑
+  const images = imagesContext.keys().map(imagesContext);
 
   useEffect(() => {
     // Add event listener for the right arrow key
@@ -91,6 +86,15 @@ const FolderSelector = () => {
     };
   }, [currentIndex, selectedFiles]);
 
+  useEffect(() => {
+    // Add event listener for the right arrow key
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [uploadFiles, uploadedFiles]);
   return (
 
     <div className='App'>
@@ -110,32 +114,33 @@ const FolderSelector = () => {
             webkitdirectory=""
             onChange={handleSelectedFolder}
           />
-          <input
-            type="text"
-            ref={savePathInputRef}
-            style={{ display: 'none' }}
-            onChange={handleSavePathChange}
-          />
           <button className='btn' onClick={handleFolderSelect}>Upload Folder</button>
           <div>
-            <button onClick={executePythonScript}>Run Python Script</button>
+            <button className='btn' onClick={executePythonScript}>Run Model</button>
           </div>
-          <button className='btn' onClick={handleSavePathSelect}>Download Folder</button>
           <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedFiles.length)}>Next</button>
           <button className='btn' onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedFiles.length) % selectedFiles.length)}>Previous</button>
         </div>
 
         {/* main */}
         <div className='main'>
-          {/* <h2>{ currentIndex }Select a Folder</h2> */}
           <div className='image'>
             {selectedFiles.length > 1 && (
               <img
                 src={URL.createObjectURL(selectedFiles[currentIndex])}
                 alt="폴더에 이미지가 없습니다!"
-                style={{ width: '70vw', height: '80vh'}}
+                style={{ width: '70vw', height: '40vh'}}
               />
             )}
+          </div>
+          <div>
+            {
+              <img
+                src={images[currentIndex]}
+                alt="Run Model을 눌러주세요"
+                style={{ width: '70vw', height: '40vh'}}
+              />
+            }
           </div>
           {/* down bar */}
           <div className='down_bar'>
