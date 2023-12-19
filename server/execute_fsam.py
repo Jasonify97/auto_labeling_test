@@ -4,7 +4,7 @@ from FastSAM.fastsam import FastSAM, FastSAMPrompt
 class FSAM:
     def __init__(self):
         self.DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-        self.model = FastSAM(f'{self.DIR_PATH}/FastSAM/weights/FastSAM_x.pt')
+        self.model = FastSAM(f'{self.DIR_PATH}/FastSAM/weights/FastSAM-x.pt')
         self.IMAGE_PATH = './uploads/'
         self.DEVICE = 'cpu'
 
